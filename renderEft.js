@@ -204,9 +204,10 @@ class DataTable {
 const table1 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETF', ['ticker', 'name', 'price', 'priceChange', 'volume', 'turnoverRate', 'aum', 'marketCap', 'expenseRatio', 'type'], 'table1');
 table1.fetchData();
 
-const table2 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETFFlow', ['prop1', 'prop2', 'prop3'], 'table2');
+const table2 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETFFlow', ['time', 'GBTC', 'IBIT', 'FBTC', 'ARKB', 'BITB', 'BTCO', 'HODL', 'BRRR', 'EZBC', 'BTCW', 'total'], 'table2');
+table2.fetchData();
 
-const table3 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETFAssetInfo', ['ticker', 'name', 'price', ' ', 'premiumDiscount', 'btcHolding', 'btcChange1d', 'btcChange7d', 'nav'], 'table3');
+const table3 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETFAssetInfo', ['ticker', 'name', 'price', 'priceChange', 'premiumDiscount', 'btcHolding', 'btcChange1d', 'btcChange7d', 'nav'], 'table3');
 table3.fetchData();
 
 const getCellValue = (tr, idx) => {

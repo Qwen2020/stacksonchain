@@ -99,9 +99,11 @@ function renderTable() {
                             let value = rowData[prop] !== null ? parseFloat(rowData[prop]).toFixed(2) : '--';
                             let color = value < 0 ? 'E20202' : '04BB5B';
                             cell.innerHTML = `<span class="text-weight-bold" style="color: #${color};">${value}%</span>`;
-                        }
-
-                        else if (prop === 'price') {
+                        } else if (prop === 'time') {
+    let value = rowData[prop] !== null ? new Date(rowData[prop]) : null;
+    let formattedDate = value ? `${('0' + value.getDate()).slice(-2)}-${('0' + (value.getMonth() + 1)).slice(-2)}-${value.getFullYear().toString().substr(-2)}` : '--';
+    cell.innerHTML = `<span class="text-weight-bold">${formattedDate}</span>`;
+} else if (prop === 'price') {
                             let value = rowData[prop] !== null ? rowData[prop] : '--';
                             cell.innerHTML = `<span class="text-weight-bold">$${value}</span>`;
                         } else if (prop === 'priceChange') {

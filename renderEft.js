@@ -99,11 +99,11 @@ function renderTable() {
                             let value = rowData[prop] !== null ? parseFloat(rowData[prop]).toFixed(2) : '--';
                             let color = value < 0 ? 'E20202' : '04BB5B';
                             cell.innerHTML = `<span class="text-weight-bold" style="color: #${color};">${value}%</span>`;
-                        } else if (prop === 'time') {
-    let value = rowData[prop] !== null ? new Date(rowData[prop]) : null;
-    let formattedDate = value ? `${('0' + value.getDate()).slice(-2)}-${('0' + (value.getMonth() + 1)).slice(-2)}-${value.getFullYear().toString().substr(-2)}` : '--';
-    cell.innerHTML = `<span class="text-weight-bold">${formattedDate}</span>`;
-} else if (prop === 'price') {
+                        } else if (prop === 'date') {
+                            let value = rowData[prop] !== null ? new Date(rowData[prop]) : null;
+                            let formattedDate = value ? `${('0' + value.getDate()).slice(-2)}-${('0' + (value.getMonth() + 1)).slice(-2)}-${value.getFullYear().toString().substr(-2)}` : '--';
+                            cell.innerHTML = `<span class="text-weight-bold">${formattedDate}</span>`;
+                        } else if (prop === 'price') {
                             let value = rowData[prop] !== null ? rowData[prop] : '--';
                             cell.innerHTML = `<span class="text-weight-bold">$${value}</span>`;
                         } else if (prop === 'priceChange') {
@@ -283,7 +283,7 @@ function renderTable() {
         const table1 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETF', ['ticker', 'name', 'price', 'priceChange', 'volume', 'turnoverRate', 'aum', 'marketCap', 'expenseRatio', 'type'], 'table1');
         table1.fetchData();
 
-        const table2 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETFFlow', ['time', 'GBTC', 'IBIT', 'FBTC', 'ARKB', 'BITB', 'BTCO', 'HODL', 'BRRR', 'EZBC', 'BTCW', 'total'], 'table2');
+        const table2 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETFFlow', ['date', 'GBTC', 'IBIT', 'FBTC', 'ARKB', 'BITB', 'BTCO', 'HODL', 'BRRR', 'EZBC', 'BTCW', 'total'], 'table2');
         table2.fetchData();
 
         const table3 = new DataTable('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETFAssetInfo', ['ticker', 'name', 'price', 'priceChange', 'premiumDiscount', 'btcHolding', 'btcChange1d', 'btcChange7d', 'nav'], 'table3');
@@ -355,48 +355,48 @@ function renderTable() {
 };
 
 renderTable().then(() => {
-// Import fetch if it's not available globally
-// const fetch = require('node-fetch');
+    // Import fetch if it's not available globally
+    // const fetch = require('node-fetch');
 
-let totalVolume = 0;
-let totalAum = 0;
-let totalMarketCap = 0;
+    let totalVolume = 0;
+    let totalAum = 0;
+    let totalMarketCap = 0;
 
-fetch('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETF')
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(item => {
-            totalVolume += item.volume;
-            totalAum += item.aum;
-            totalMarketCap += item.marketCap;
-        });
+    fetch('https://dw-app-a83a83790d97.herokuapp.com/api/getBitcoinETF')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                totalVolume += item.volume;
+                totalAum += item.aum;
+                totalMarketCap += item.marketCap;
+            });
 
-        // Format the totals
-        totalVolume = formatNumber(totalVolume);
-        totalAum = formatNumber(totalAum);
-        totalMarketCap = formatNumber(totalMarketCap);
+            // Format the totals
+            totalVolume = formatNumber(totalVolume);
+            totalAum = formatNumber(totalAum);
+            totalMarketCap = formatNumber(totalMarketCap);
 
-        // Set the innerHTML of the elements
-        document.querySelector('[data-total="volume"]').innerHTML = totalVolume;
-        document.querySelector('[data-total="aum"]').innerHTML = totalAum;
-        document.querySelector('[data-total="marketCap"]').innerHTML = totalMarketCap;
-    })
-    .catch(error => console.error('Error:', error));
+            // Set the innerHTML of the elements
+            document.querySelector('[data-total="volume"]').innerHTML = totalVolume;
+            document.querySelector('[data-total="aum"]').innerHTML = totalAum;
+            document.querySelector('[data-total="marketCap"]').innerHTML = totalMarketCap;
+        })
+        .catch(error => console.error('Error:', error));
 
-// Function to format the numbers
-function formatNumber(num) {
-    num = parseFloat(num); // Convert num to a number
-    let formattedNum = num;
+    // Function to format the numbers
+    function formatNumber(num) {
+        num = parseFloat(num); // Convert num to a number
+        let formattedNum = num;
 
-    if (num >= 1e9) {
-        formattedNum = (num / 1e9).toFixed(2) + 'B';
-    } else if (num >= 1e6) {
-        formattedNum = (num / 1e6).toFixed(2) + 'M';
-    } else {
-        formattedNum = num.toFixed(2);
+        if (num >= 1e9) {
+            formattedNum = (num / 1e9).toFixed(2) + 'B';
+        } else if (num >= 1e6) {
+            formattedNum = (num / 1e6).toFixed(2) + 'M';
+        } else {
+            formattedNum = num.toFixed(2);
+        }
+
+        return '$' + formattedNum;
     }
-
-    return '$' + formattedNum;
-}
 
 });
